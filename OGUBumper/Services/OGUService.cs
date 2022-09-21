@@ -1,6 +1,5 @@
 ﻿using OGUBumper.Models;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -28,7 +27,30 @@ namespace OGUBumper.Services
             });
         }
 
-        #region Get Post Info
+        public async Task PostReplyAsync(WebForm webForm, string replyMessage)
+        {
+            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://ogu.gg/newreply.php?tid={webForm.tid}&processed=1")
+            {
+                Content = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    ["my_post_key"] = webForm.my_post_key,
+                    ["subject"] = webForm.subject,
+                    ["action"] = "do_newreply",
+                    ["posthash"] = webForm.posthash,
+                    ["quoted_ids"] = "",
+                    ["lastpid"] = webForm.lastpid,
+                    ["from_page"] = webForm.from_page,
+                    ["tid"] = webForm.tid,
+                    ["method"] = webForm.method,
+                    ["message"] = replyMessage
+                })
+            };
+
+            requestMessage.Headers.Add("User-Agent", UserAgent);
+            requestMessage.Headers.Add("Cookie", cookieString);
+
+            await httpClient.SendAsync(requestMessage);
+        }
 
         public async Task<WebForm> GetPostInfoAsync(string URL)
         {
@@ -55,35 +77,6 @@ namespace OGUBumper.Services
             string Method = Regex.Match(responseString, "name=\"method\" value=\"(.*)\" />").Groups[1].Value;
 
             return new WebForm(MyPostKey, Subject, Posthash, LastPID, FromPage, TID, Method);
-        }
-
-        #endregion
-
-        public async Task PostReplyAsync(WebForm webForm, string replyMessage)
-        {
-            // https://ogu.gg/newreply.php?tid=992280&processed=1
-
-            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"https://ogu.gg/newreply.php?tid={webForm.tid}&processed=1")
-            {
-                Content = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    ["my_post_key"] = webForm.my_post_key,
-                    ["subject"] = webForm.subject,
-                    ["action"] = "do_newreply",
-                    ["posthash"] = webForm.posthash,
-                    ["quoted_ids"] = "",
-                    ["lastpid"] = webForm.lastpid,
-                    ["from_page"] = webForm.from_page,
-                    ["tid"] = webForm.tid,
-                    ["method"] = webForm.method,
-                    ["message"] = replyMessage
-                })
-            };
-
-            requestMessage.Headers.Add("User-Agent", UserAgent);
-            requestMessage.Headers.Add("Cookie", cookieString);
-
-            await httpClient.SendAsync(requestMessage);
         }
     }
 }

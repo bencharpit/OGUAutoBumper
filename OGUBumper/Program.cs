@@ -7,12 +7,26 @@ using OGUBumper.Services;
 
 namespace OGUBumper
 {
+    /// <summary>
+    /// Auto bumper for the posts you want from any account in OGU.GG
+    /// </summary>
+    /// <seealso cref="FileHelper"/>
     internal class Program : FileHelper
     {
+        /// <summary>
+        /// <see cref="OGUService"/>
+        /// </summary>
         private static OGUService oguService;
 
+        /// <summary>
+        /// URLs & WebForms details for post bumps
+        /// </summary>
+        /// <seealso cref="WebForm"/>
         private static List<KeyValuePair<string, WebForm>> allPostWebForm;
 
+        /// <summary>
+        /// Delay between bumps
+        /// </summary>
         private static TimeSpan delayReplies;
 
         static async Task Main()
@@ -35,6 +49,10 @@ namespace OGUBumper
             await Task.Delay(-1);
         }
 
+        /// <summary>
+        /// Start bumping
+        /// </summary>
+        /// <returns><see cref="System.Threading.Tasks.Task"/></returns>
         protected static async Task StartAsync()
         {
             while (true)
