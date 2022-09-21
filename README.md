@@ -1,7 +1,7 @@
 # OGUAutoBumper | OGU.GG auto-bumper
 
 ### Instructions
-1. Add your account cookies **Files/Cookies.txt** (How get OGU cookies: https://www.youtube.com/watch?v=OtfqmotGMKs)
+1. Add your account cookies **Files/Cookies.txt** (How get OGU cookies: https://www.youtube.com/watch?v=vF52Bp8GPNs)
 2. Your URL post(s) (1 per line) **Files/Urls.txt**
 3. Add your message to use as reply on the posts **Files/Messages.txt**
 4. double-click to .exe and enjoy the auto bump every 30 mins on all your posts
