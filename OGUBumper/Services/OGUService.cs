@@ -23,7 +23,7 @@ namespace OGUBumper.Services
             httpClient = new HttpClient(new HttpClientHandler
             {
                 UseCookies = false,
-                //Proxy = new WebProxy()
+                Proxy = new WebProxy()
             });
         }
 
